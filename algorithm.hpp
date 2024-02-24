@@ -7,14 +7,14 @@ struct Edge {
     Edge(int u, int v) : u(u), v(v) {}
 };
 
-// Функция для преобразования списка рёбер в список смежности
+//Функция для преобразования списка рёбер в список смежности
 std::vector<std::vector<int> > edgesToAdjacencyList(const std::vector<Edge> edges) {
     int maxVertex = -1;
     for (const auto& edge : edges) {
         maxVertex = std::max(maxVertex, std::max(edge.u, edge.v));
     }
 
-    // Увеличим размер adjacencyList до максимального номера вершины + 1
+    //Увеличим размер adjacencyList до максимального номера вершины + 1
     std::vector<std::vector<int> > adjacencyList(maxVertex + 1);
     for (const auto& edge : edges) {
         adjacencyList[edge.u].push_back(edge.v);

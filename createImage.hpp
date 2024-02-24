@@ -86,6 +86,26 @@ void createImage(int V, std::vector<Edge> edges){
         // Отрисовываем круг (вершину)
         drawCircle(pixels, centerX, centerY, vertexSize, width, height);
 
+        /*
+        int posx = 0;
+        int posy = 0;
+        if(i == 0) {
+            posx = centerX;
+            posy = centerY;
+        }
+        if(centerX >= posx && centerY >= posy) {
+            drawText(pixels, centerX + 10, centerY + 10, std::to_string(i), width, height);
+        }else if(centerX >= posx && centerY < posy) {
+            drawText(pixels, centerX + 10, centerY - 10, std::to_string(i), width, height);
+        }else if(centerX < posx && centerY >= posy) {
+            drawText(pixels, centerX - 10, centerY + 10, std::to_string(i), width, height);
+        }else if(centerX < posx && centerY < posy) {
+            drawText(pixels, centerX - 10, centerY - 10, std::to_string(i), width, height);
+        } 
+        */
+
+       drawText(pixels, centerX - 10, centerY - 20, std::to_string(i), width, height);
+
     }
     
     saveFile(height, width, file, pixels);
