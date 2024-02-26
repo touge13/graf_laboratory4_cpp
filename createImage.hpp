@@ -48,12 +48,14 @@ void createImage(int V, std::vector<Edge> edges){
     file.write(reinterpret_cast<char*>(&importantColors), 4); 
 
     // BMP data
-    //Белый фон
-    for (int i = 0; i < width * height * 3; ++i) { 
-        pixels[i] = 255; 
+    //Цвет фона
+    for (int i = 0; i < width * height; ++i) {
+        pixels[i * 3] = 255; // Красный компонент
+        pixels[i * 3 + 1] = 0; // Зеленый компонент
+        pixels[i * 3 + 2] = 255; // Синий компонент
     }
-
-     // вершины по кругу
+    
+    // вершины по кругу
     std::vector<Point> vertexCoords(V);
     for (int i = 0; i < V; ++i) {
         double angle = 2 * M_PI * i / V;
@@ -69,13 +71,15 @@ void createImage(int V, std::vector<Edge> edges){
     for (int i = 0; i < 100; i++){
         algorithm(vertexCoords);
     }
+    
+    centerGraph(V, vertexCoords, height, width);
+    scaleGraph(V, vertexCoords);
 
     // Отрисовка рёбер
     for (const auto& edge : edges) {
         int u = edge.u, v = edge.v;
         drawLine(pixels, vertexCoords[u].x, vertexCoords[u].y, vertexCoords[v].x, vertexCoords[v].y, width, height);
     }
-
 
     // Отрисовка вершин
     for (int i = 0; i < V; ++i) {
@@ -85,26 +89,7 @@ void createImage(int V, std::vector<Edge> edges){
 
         // Отрисовываем круг (вершину)
         drawCircle(pixels, centerX, centerY, vertexSize, width, height);
-
-        /*
-        int posx = 0;
-        int posy = 0;
-        if(i == 0) {
-            posx = centerX;
-            posy = centerY;
-        }
-        if(centerX >= posx && centerY >= posy) {
-            drawText(pixels, centerX + 10, centerY + 10, std::to_string(i), width, height);
-        }else if(centerX >= posx && centerY < posy) {
-            drawText(pixels, centerX + 10, centerY - 10, std::to_string(i), width, height);
-        }else if(centerX < posx && centerY >= posy) {
-            drawText(pixels, centerX - 10, centerY + 10, std::to_string(i), width, height);
-        }else if(centerX < posx && centerY < posy) {
-            drawText(pixels, centerX - 10, centerY - 10, std::to_string(i), width, height);
-        } 
-        */
-
-       drawText(pixels, centerX - 10, centerY - 20, std::to_string(i), width, height);
+        drawText(pixels, centerX - 10, centerY - 20, std::to_string(i), width, height);
 
     }
     

@@ -132,3 +132,77 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
         temp = 1;
     }
 }
+
+void centerGraph(int V, std::vector<Point>& vertexCoords, int width, int height){
+    //Находим максимальные и минимальные значения координат всех вершин
+    int minX = INT_MAX;
+    int minY = INT_MAX;
+    int maxX = INT_MIN;
+    int maxY = INT_MIN;
+
+    for (int i = 0; i < V; ++i) {
+        if (vertexCoords[i].x < minX) {
+            minX = vertexCoords[i].x;
+        }
+        if (vertexCoords[i].x > maxX) {
+            maxX = vertexCoords[i].x;
+        }
+        if (vertexCoords[i].y < minY) {
+            minY = vertexCoords[i].y;
+        }
+        if (vertexCoords[i].y > maxY) {
+            maxY = vertexCoords[i].y;
+        }
+    }
+
+    //Находим центр графа
+    double centerX = (maxX + minX) / 2;
+    double centerY = (maxY + minY) / 2;
+    
+    //Смещаем центр графа в координаты (width/2,height/2)
+    double offsetX = (width/2) - centerX;
+    double offsetY = (height/2) - centerY;
+
+    //Смещаем граф
+    for (int i = 0; i < V; ++i) {
+        double newX = vertexCoords[i].x + offsetX;
+        double newY = vertexCoords[i].y + offsetY;
+        vertexCoords[i].x = newX;
+        vertexCoords[i].y = newY;
+    }
+}
+
+void scaleGraph(int V, std::vector<Point>& vertexCoords){
+    //Находим максимальные и минимальные значения координат всех вершин
+    int minX = INT_MAX;
+    int minY = INT_MAX;
+    int maxX = INT_MIN;
+    int maxY = INT_MIN;
+
+    for (int i = 0; i < V; ++i) {
+        if (vertexCoords[i].x < minX) {
+            minX = vertexCoords[i].x;
+        }
+        if (vertexCoords[i].x > maxX) {
+            maxX = vertexCoords[i].x;
+        }
+        if (vertexCoords[i].y < minY) {
+            minY = vertexCoords[i].y;
+        }
+        if (vertexCoords[i].y > maxY) {
+            maxY = vertexCoords[i].y;
+        }
+    }
+
+    //Находим центр графа
+    double centerX = (maxX + minX) / 2;
+    double centerY = (maxY + minY) / 2;
+
+    //Масштабируем граф
+    for (int i = 0; i < V; ++i) {
+        double newX = centerX + (vertexCoords[i].x - centerX) * 2;
+        double newY = centerY + (vertexCoords[i].y - centerY) * 2;
+        vertexCoords[i].x = newX;
+        vertexCoords[i].y = newY;
+    }
+}
