@@ -7,10 +7,10 @@ void drawCircle(std::vector<uint8_t>& pixels, int centerX, int centerY, int radi
         for (int x = centerX - radius; x <= centerX + radius; ++x) {
             if ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius) {
                 if (x >= 0 && y >= 0 && x < width && y < height) {
-                    int index = y * width + x;
-                    pixels[index] = 0; // R
+                    int index = (y * width + x) * 3;
+                    pixels[index] = 0; // B
                     pixels[index + 1] = 0; // G
-                    pixels[index + 2] = 0; // B
+                    pixels[index + 2] = 0; // R
                 }
             }
         }
@@ -25,11 +25,11 @@ void drawLine(std::vector<uint8_t>& pixels, int x1, int y1, int x2, int y2, int 
     int err = dx - dy;
 
     while(true) {
-        int index = y1 * width + x1;
+        int index = (y1 * width + x1) * 3;
         if (x1 >= 0 && y1 >= 0 && x1 < width && y1 < height) {
-            pixels[index] = 0; // R
+            pixels[index] = 0; // B
             pixels[index + 1] = 0; // G
-            pixels[index + 2] = 0; // B
+            pixels[index + 2] = 0; // R
         }
 
         if (x1 == x2 && y1 == y2)
@@ -193,9 +193,9 @@ void drawText(std::vector<uint8_t>& pixels, int x, int y, std::string text, int 
             for (int iy = 0; iy < charHeight; ++iy) {
                 for (int ix = 0; ix < charWidth; ++ix) {
                     if (charMap[charIndex][iy][ix]) {
-                        pixels[((y + iy) * width + (x + i * (charWidth + offset) + ix)) + 0] = 120; // R
-                        pixels[((y + iy) * width + (x + i * (charWidth + offset) + ix)) + 1] = 120; // G
-                        pixels[((y + iy) * width + (x + i * (charWidth + offset) + ix)) + 2] = 120; // B
+                        pixels[(((y + iy) * width + (x + i * (charWidth + offset) + ix))) * 3] = 107; // B
+                        pixels[(((y + iy) * width + (x + i * (charWidth + offset) + ix))) * 3 + 1] = 37; // G
+                        pixels[(((y + iy) * width + (x + i * (charWidth + offset) + ix))) * 3 + 2] = 227; // R
                     }
                 }
             }

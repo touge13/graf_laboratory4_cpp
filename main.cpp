@@ -1,6 +1,5 @@
 //cd "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/" && g++ -std=c++11 main.cpp -o main && "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/"main   
 
-
 #include <iostream>
 #include <fstream>
 #include <vector>

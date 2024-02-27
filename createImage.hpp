@@ -10,9 +10,9 @@
 void createImage(int V, std::vector<Edge> edges){
     int width = 600;
     int height = 600;
-    int vertexSize = 7; // Диаметр вершины
+    int vertexSize = 6; // Диаметр вершины
 
-    //uin8_t = 1 байт
+    //uint8_t = 1 байт
     //размер вектора ширина * высота * размер каждого пикселя (ргб => 3 байта)
     std::vector<uint8_t> pixels(width * height * 3);
 
@@ -50,9 +50,9 @@ void createImage(int V, std::vector<Edge> edges){
     // BMP data
     //Цвет фона
     for (int i = 0; i < width * height; ++i) {
-        pixels[i * 3] = 255; // Красный компонент
-        pixels[i * 3 + 1] = 0; // Зеленый компонент
-        pixels[i * 3 + 2] = 255; // Синий компонент
+        pixels[i * 3] = (uint8_t) 255; // B
+        pixels[i * 3 + 1] = (uint8_t) 255; // G
+        pixels[i * 3 + 2] = (uint8_t) 255; // R
     }
     
     // вершины по кругу
@@ -61,7 +61,7 @@ void createImage(int V, std::vector<Edge> edges){
         double angle = 2 * M_PI * i / V;
         int x = height / 2 + static_cast<int>((height / 3.5 - vertexSize / 2) * cos(angle));
         int y = height / 2 + static_cast<int>((height / 3.5 - vertexSize / 2) * sin(angle));
-        vertexCoords[i] = Point(x, y);
+        vertexCoords[i] = Point(x, y, i);
     }
 
     // Стартуем алгоритм
@@ -89,9 +89,10 @@ void createImage(int V, std::vector<Edge> edges){
 
         // Отрисовываем круг (вершину)
         drawCircle(pixels, centerX, centerY, vertexSize, width, height);
-        drawText(pixels, centerX - 10, centerY - 20, std::to_string(i), width, height);
+        // Отрисовываем номера вершин (цифры)
+        drawText(pixels, centerX - 10, centerY - 20, std::to_string(vertexCoords[i].num), width, height);
 
     }
-    
-    saveFile(height, width, file, pixels);
+
+    saveFile(width, height, file, pixels);
 }

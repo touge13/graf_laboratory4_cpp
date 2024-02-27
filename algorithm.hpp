@@ -39,9 +39,10 @@ struct planeVector {
 struct Point {
     int x;
     int y;
+    int num;
     
     Point() : x(0), y(0) {}
-    Point(double x, double y) : x(x), y(y) {}
+    Point(double x, double y, int num) : x(x), y(y), num(num) {}
 };
 
 class fruchtermanReingold {

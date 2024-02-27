@@ -6,7 +6,7 @@ void saveFile(int width, int height, std::ofstream& file, std::vector<uint8_t>& 
     for(int i = 0; i < height; i++) {
         //Запись
         for(int j = 0; j < width; j++) {
-            int index = i * width + j;
+            int index = 3 * (i * width + j);
             file.write(reinterpret_cast<const char*>(&pixels[index]), 3);
         }
         //Выравнивание до разрешения кратности 4 
