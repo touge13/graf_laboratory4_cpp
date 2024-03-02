@@ -1,11 +1,6 @@
-#include <vector>
-#include <cmath>
+#include "../include/algorithm.h"
 
-struct Edge {
-    int u;
-    int v;
-    Edge(int u, int v) : u(u), v(v) {}
-};
+//-----------------------нормальное расположение вершин------------
 
 //Функция для преобразования списка рёбер в список смежности
 std::vector<std::vector<int> > edgesToAdjacencyList(const std::vector<Edge> edges) {
@@ -24,48 +19,6 @@ std::vector<std::vector<int> > edgesToAdjacencyList(const std::vector<Edge> edge
     return adjacencyList;
 }
 
-// planeVector in plane
-struct planeVector {
-    int dx, dy;
-
-    planeVector() : dx(0), dy(0) {}
-    planeVector(double x, double y) : dx(x), dy(y) {};
-
-    double norm() const {
-        return sqrt(dx * dx + dy * dy);
-    }
-};
-
-struct Point {
-    int x;
-    int y;
-    int num;
-    
-    Point() : x(0), y(0) {}
-    Point(double x, double y, int num) : x(x), y(y), num(num) {}
-};
-
-class fruchtermanReingold {
-public:
-    fruchtermanReingold(std::vector<std::vector<int> > adj_list, double k = 30.0);
-    void operator()(std::vector<Point>& positions);
-
-private:
-    const std::vector<std::vector<int> > adj_list;
-    const double k;
-    const double kSquared;
-    double temp;
-    std::vector<Edge> edges;
-    std::vector<planeVector> power;
-};
-
-fruchtermanReingold::fruchtermanReingold(const std::vector<std::vector<int> > g, double k)
-    : adj_list(g)
-    , k(k)
-    , kSquared(k * k)
-    , temp(10 * sqrt(g.size()))
-    , power(adj_list.size()) {}
-
 void fruchtermanReingold::operator()(std::vector<Point>& positions) {
     planeVector start;
     start.dx = 0;
@@ -73,7 +26,7 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
 
     fill(power.begin(), power.end(), start);
 
-    // Repulsion force between vertice pairs
+    // Сила отталкивания между парами вершин
     for (int v_id = 0; v_id < adj_list.size(); v_id++) {
         for (size_t other_id = v_id + 1; other_id < adj_list.size(); ++other_id) {
             planeVector delta;
@@ -110,10 +63,10 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
         }
     }
 
-    // Max movement capped by current temperature
+    // Максимальное движение ограничено текущей температурой
     for (int v_id = 0; v_id < adj_list.size(); v_id++) {
         double powerNorm = power[v_id].norm();
-        // < 1.0: not worth computing
+        // < 1.0: не стоит вычислять
         if (powerNorm < 1.0) {
             continue;
         }
@@ -126,13 +79,15 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
         positions[v_id].y += cappedPower.dy;
     }
 
-    // Cool down fast until we reach 1.5, then stay at low temperature
+// Быстро остываем, пока не достигнем 1,5, затем остаемся при низкой температуре
     if (temp > 1) {
         temp *= 0.97;
     } else {
         temp = 1;
     }
 }
+
+//-----------------------центруем и масштабируем граф-----------------
 
 void centerGraph(int V, std::vector<Point>& vertexCoords, int width, int height){
     //Находим максимальные и минимальные значения координат всех вершин
@@ -173,7 +128,7 @@ void centerGraph(int V, std::vector<Point>& vertexCoords, int width, int height)
     }
 }
 
-void scaleGraph(int V, std::vector<Point>& vertexCoords){
+void scaleGraph(int V, std::vector<Point>& vertexCoords, int width, int height, int vertexSize){
     //Находим максимальные и минимальные значения координат всех вершин
     int minX = INT_MAX;
     int minY = INT_MAX;
@@ -199,11 +154,46 @@ void scaleGraph(int V, std::vector<Point>& vertexCoords){
     double centerX = (maxX + minX) / 2;
     double centerY = (maxY + minY) / 2;
 
-    //Масштабируем граф
+    //Проверяем, выйдет ли граф за пределы изображения
+    int flag = 3;
     for (int i = 0; i < V; ++i) {
-        double newX = centerX + (vertexCoords[i].x - centerX) * 2;
-        double newY = centerY + (vertexCoords[i].y - centerY) * 2;
-        vertexCoords[i].x = newX;
-        vertexCoords[i].y = newY;
+        double newX_3 = centerX + (vertexCoords[i].x - centerX) * 3;
+        double newY_3 = centerY + (vertexCoords[i].y - centerY) * 3;
+        if ((newX_3 + vertexSize/2) > width || (newX_3 - vertexSize/2) < 0 || (newY_3 + vertexSize/2) > height || (newY_3 - vertexSize/2) < 0) {
+            flag = 2;
+            break;
+        }
+    }
+    for (int i = 0; i < V; ++i) {
+        double newX_2 = centerX + (vertexCoords[i].x - centerX) * 2;
+        double newY_2 = centerY + (vertexCoords[i].y - centerY) * 2;
+        if ((newX_2 + vertexSize/2) > width || (newX_2 - vertexSize/2) < 0 || (newY_2 + vertexSize/2) > height || (newY_2 - vertexSize/2) < 0) {
+            flag = 1;
+            break;
+        }
+    }
+
+    //Масштабируем граф
+    if (flag == 3) {
+        for (int i = 0; i < V; ++i) {
+            double newX = centerX + (vertexCoords[i].x - centerX) * 3;
+            double newY = centerY + (vertexCoords[i].y - centerY) * 3;
+            vertexCoords[i].x = newX;
+            vertexCoords[i].y = newY;
+        }
+    } else if (flag == 2) {
+        for (int i = 0; i < V; ++i) {
+            double newX = centerX + (vertexCoords[i].x - centerX) * 2;
+            double newY = centerY + (vertexCoords[i].y - centerY) * 2;
+            vertexCoords[i].x = newX;
+            vertexCoords[i].y = newY;
+        }
     }
 }
+
+fruchtermanReingold::fruchtermanReingold(const std::vector<std::vector<int> >& g, double k)
+    : adj_list(g)
+    , k(k)
+    , kSquared(k * k)
+    , temp(10 * sqrt(g.size()))
+    , power(adj_list.size()) {}

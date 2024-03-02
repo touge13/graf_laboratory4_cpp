@@ -1,11 +1,25 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <cmath>
+#include "../include/createImage.h"
 
-#include "saveFile.hpp"
-#include "drawingFigures.hpp"
-#include "algorithm.hpp"
+void createResultImage (int V, std::vector<Edge> edges, std::vector<uint8_t>& pixels, std::vector<Point>& vertexCoords, int width, int height, int vertexSize) {
+    // Отрисовка рёбер
+    for (const auto& edge : edges) {
+        int u = edge.u, v = edge.v;
+        drawLine(pixels, vertexCoords[u].x, vertexCoords[u].y, vertexCoords[v].x, vertexCoords[v].y, width, height);
+    }
+
+    // Отрисовка вершин и цифр
+    for (int i = 0; i < V; ++i) {
+        // Получаем координаты центра вершины
+        int centerX = vertexCoords[i].x;
+        int centerY = vertexCoords[i].y;
+
+        // Отрисовываем круг (вершину)
+        drawCircle(pixels, centerX, centerY, vertexSize, width, height);
+        // Отрисовываем номера вершин (цифры)
+        drawText(pixels, centerX - 10, centerY - 20, std::to_string(vertexCoords[i].num), width, height);
+
+    }
+}
 
 void createImage(int V, std::vector<Edge> edges){
     int width = 600;
@@ -16,7 +30,7 @@ void createImage(int V, std::vector<Edge> edges){
     //размер вектора ширина * высота * размер каждого пикселя (ргб => 3 байта)
     std::vector<uint8_t> pixels(width * height * 3);
 
-    std::ofstream file("output.bmp", std::ios::out | std::ios::binary);
+    std::ofstream file("../conversion/output.bmp", std::ios::out | std::ios::binary);
 
     // BMP Header (шаблонно)
     file << "BM"; 
@@ -48,14 +62,14 @@ void createImage(int V, std::vector<Edge> edges){
     file.write(reinterpret_cast<char*>(&importantColors), 4); 
 
     // BMP data
-    //Цвет фона
+    // Заливаем фон
     for (int i = 0; i < width * height; ++i) {
-        pixels[i * 3] = (uint8_t) 255; // B
+        pixels[i * 3] = (uint8_t) 255;     // B
         pixels[i * 3 + 1] = (uint8_t) 255; // G
         pixels[i * 3 + 2] = (uint8_t) 255; // R
     }
     
-    // вершины по кругу
+    // Изначально расставляем вершины по кругу
     std::vector<Point> vertexCoords(V);
     for (int i = 0; i < V; ++i) {
         double angle = 2 * M_PI * i / V;
@@ -73,26 +87,8 @@ void createImage(int V, std::vector<Edge> edges){
     }
     
     centerGraph(V, vertexCoords, height, width);
-    scaleGraph(V, vertexCoords);
-
-    // Отрисовка рёбер
-    for (const auto& edge : edges) {
-        int u = edge.u, v = edge.v;
-        drawLine(pixels, vertexCoords[u].x, vertexCoords[u].y, vertexCoords[v].x, vertexCoords[v].y, width, height);
-    }
-
-    // Отрисовка вершин
-    for (int i = 0; i < V; ++i) {
-        // Получаем координаты центра вершины
-        int centerX = vertexCoords[i].x;
-        int centerY = vertexCoords[i].y;
-
-        // Отрисовываем круг (вершину)
-        drawCircle(pixels, centerX, centerY, vertexSize, width, height);
-        // Отрисовываем номера вершин (цифры)
-        drawText(pixels, centerX - 10, centerY - 20, std::to_string(vertexCoords[i].num), width, height);
-
-    }
-
+    scaleGraph(V, vertexCoords, width, height, vertexSize);
+    createResultImage(V, edges, pixels, vertexCoords, width, height, vertexSize);
     saveFile(width, height, file, pixels);
+    
 }

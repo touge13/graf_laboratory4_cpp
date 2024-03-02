@@ -1,6 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
+#include "../include/saveFile.h"
 
 void saveFile(int width, int height, std::ofstream& file, std::vector<uint8_t>& pixels){
     for(int i = 0; i < height; i++) {

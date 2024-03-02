@@ -1,6 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
+#include "../include/drawingFigures.h"
 
 void drawCircle(std::vector<uint8_t>& pixels, int centerX, int centerY, int radius, int width, int height) {
     for (int y = centerY - radius; y <= centerY + radius; ++y) {
