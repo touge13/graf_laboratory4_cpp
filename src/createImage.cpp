@@ -1,10 +1,19 @@
 #include "../include/createImage.h"
 
 void createResultImage (int V, std::vector<Edge> edges, std::vector<uint8_t>& pixels, std::vector<Point>& vertexCoords, int width, int height, int vertexSize) {
+    // Определение общего количество шагов выполнения программы
+    int totalSteps = V + edges.size();
+    int currentStep = 0;
+
     // Отрисовка рёбер
     for (const auto& edge : edges) {
         int u = edge.u, v = edge.v;
         drawLine(pixels, vertexCoords[u].x, vertexCoords[u].y, vertexCoords[v].x, vertexCoords[v].y, width, height);
+        currentStep++;
+        float completionPercentage = static_cast<float>(currentStep) / totalSteps * 100;
+        if (currentStep % 2 == 0) {
+            std::cout << "Completion: " << std::fixed << std::setprecision(1) << completionPercentage << "%" << std::endl;
+        }
     }
 
     // Отрисовка вершин и цифр
@@ -18,6 +27,11 @@ void createResultImage (int V, std::vector<Edge> edges, std::vector<uint8_t>& pi
         // Отрисовываем номера вершин (цифры)
         drawText(pixels, centerX - 10, centerY - 20, std::to_string(vertexCoords[i].num), width, height);
 
+        currentStep++;
+        float completionPercentage = static_cast<float>(currentStep) / totalSteps * 100;
+        if (currentStep % 2 == 0) {
+            std::cout << "Completion: " << std::fixed << std::setprecision(1) << completionPercentage << "%" << std::endl;
+        }
     }
 }
 
@@ -25,6 +39,7 @@ void createImage(int V, std::vector<Edge> edges){
     int width = 600;
     int height = 600;
     int vertexSize = 6; // Диаметр вершины
+    int numIteration = 100; //количество итераций при расстановке вершин
 
     //uint8_t = 1 байт
     //размер вектора ширина * высота * размер каждого пикселя (ргб => 3 байта)
@@ -82,7 +97,7 @@ void createImage(int V, std::vector<Edge> edges){
     std::vector<std::vector<int> > adj_list = edgesToAdjacencyList(edges);
     fruchtermanReingold algorithm(adj_list);
 
-    for (int i = 0; i < 100; i++){
+    for (int i = 0; i < numIteration; i++){
         algorithm(vertexCoords);
     }
     

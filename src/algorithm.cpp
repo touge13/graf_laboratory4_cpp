@@ -79,7 +79,6 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
         positions[v_id].y += cappedPower.dy;
     }
 
-// Быстро остываем, пока не достигнем 1,5, затем остаемся при низкой температуре
     if (temp > 1) {
         temp *= 0.97;
     } else {

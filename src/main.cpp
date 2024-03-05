@@ -7,7 +7,13 @@
 #include "../include/createImage.h"
 
 int main() {
-    std::ifstream inputFile("../conversion/input.txt"); // файл со входными данными
+    std::string path;
+    std::cin >> path;
+
+    std::ifstream inputFile(path); // файл со входными данными
+    if(!inputFile) {
+        std::cout << "Файл не найден";
+    }
 
     int V, E;
     inputFile >> V >> E;
