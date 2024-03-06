@@ -19,6 +19,7 @@ std::vector<std::vector<int> > edgesToAdjacencyList(const std::vector<Edge> edge
     return adjacencyList;
 }
 
+//Функция для расстановки вершин  
 void fruchtermanReingold::operator()(std::vector<Point>& positions) {
     planeVector start;
     start.dx = 0;
@@ -66,7 +67,6 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
     // Максимальное движение ограничено текущей температурой
     for (int v_id = 0; v_id < adj_list.size(); v_id++) {
         double powerNorm = power[v_id].norm();
-        // < 1.0: не стоит вычислять
         if (powerNorm < 1.0) {
             continue;
         }
@@ -78,7 +78,7 @@ void fruchtermanReingold::operator()(std::vector<Point>& positions) {
         positions[v_id].x += cappedPower.dx;
         positions[v_id].y += cappedPower.dy;
     }
-
+    //Остываем
     if (temp > 1) {
         temp *= 0.97;
     } else {

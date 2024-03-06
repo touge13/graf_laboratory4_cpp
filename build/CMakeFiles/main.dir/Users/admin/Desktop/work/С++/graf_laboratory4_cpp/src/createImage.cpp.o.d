@@ -427,4 +427,5 @@ CMakeFiles/main.dir/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/creat
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/math.h \
   /Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/../include/saveFile.h \
   /Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/../include/drawingFigures.h \
-  /Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/../include/algorithm.h
+  /Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/../include/algorithm.h \
+  /Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/../include/imageConfigurations.h

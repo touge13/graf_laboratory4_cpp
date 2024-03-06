@@ -15,6 +15,5 @@ void saveFile(int width, int height, std::ofstream& file, std::vector<uint8_t>& 
     }
 
     file.close();
-
     std::cout << "Image created successfully\n";
 }

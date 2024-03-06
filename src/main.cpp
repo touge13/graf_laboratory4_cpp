@@ -6,6 +6,7 @@
 
 int main() {
     std::string path;
+    std::cout << "Enter the path to the input file (hint: \"../conversion/input.txt\"): ";    
     std::cin >> path;
 
     std::ifstream inputFile(path); // файл со входными данными
@@ -13,6 +14,7 @@ int main() {
         std::cout << "Файл не найден";
     }
 
+    //Вытаскиваем данные с файла
     int V, E;
     inputFile >> V >> E;
     
