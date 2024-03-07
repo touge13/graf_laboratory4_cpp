@@ -2,7 +2,7 @@
 
 cd "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/" && g++ -std=c++11 main.cpp -o main && "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/"main
 
-*на данный момент под macOS Monterey 12.6.7 в Visual Studio Code при попытке запуска main.cpp командой выше выдает ошибку:*
+*на данный момент под macOS Monterey 12.6.7 в Visual Studio Code при попытке запуска main.cpp командой выше выдает ошибку (под виндой все запускается кстати):*
 
 admin@MacBook-ProMisa graf_laboratory4_cpp % cd "/Users/admin/Desktop/work/С++/graf_laborato
 ry4_cpp/src/" && g++ main.cpp -o main && "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp
