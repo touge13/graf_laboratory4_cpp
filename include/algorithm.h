@@ -12,10 +12,10 @@ struct Edge {
     Edge(int u, int v) : u(u), v(v) {}
 };
 
-//Функция для преобразования списка рёбер в список смежности
+//функция для преобразования списка рёбер в список смежности
 std::vector<std::vector<int> > edgesToAdjacencyList(const std::vector<Edge> edges);
 
-// вектор
+//вектор в двумерном пространстве
 struct planeVector {
     int dx, dy;
 
@@ -27,7 +27,7 @@ struct planeVector {
     }
 };
 
-// точка
+//точка в двумерном пространстве
 struct Point {
     int x;
     int y;
@@ -37,14 +37,14 @@ struct Point {
     Point(double x, double y, int num) : x(x), y(y), num(num) {}
 };
 
-// Алгоритм расстановки вершин
+//алгоритм расстановки вершин
 class fruchtermanReingold {
 public:
-    fruchtermanReingold(const std::vector<std::vector<int> > &adj_list, double k = 30.0);
+    fruchtermanReingold(const std::vector<std::vector<int> > &adjList, double k = 30.0);
     void operator()(std::vector<Point>& positions);
 
 private:
-    const std::vector<std::vector<int> > adj_list;
+    const std::vector<std::vector<int> > adjList;
     const double k;
     const double kSquared;
     double temp;
@@ -57,7 +57,6 @@ private:
 //-----------------------центруем и масштабируем граф-----------------
 
 void centerGraph(int V, std::vector<Point>& vertexCoords, int width, int height);
-
 void scaleGraph(int V, std::vector<Point>& vertexCoords, int width, int height, int vertexSize);
 
 #endif

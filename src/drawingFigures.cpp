@@ -7,7 +7,7 @@ void drawCircle(std::vector<uint8_t>& pixels, int centerX, int centerY, int radi
             if ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius) {
                 if (x >= 0 && y >= 0 && x < width && y < height) {
                     int index = (y * width + x) * 3;
-                    pixels[index] = circleColorB; // B
+                    pixels[index] = circleColorB;     // B
                     pixels[index + 1] = circleColorG; // G
                     pixels[index + 2] = circleColorR; // R
                 }
@@ -46,7 +46,7 @@ void drawLine(std::vector<uint8_t>& pixels, int x1, int y1, int x2, int y2, int 
     }
 }
 
-void drawText(std::vector<uint8_t>& pixels, int x, int y, std::string text, int width, int height){
+void drawText(std::vector<uint8_t>& pixels, int x, int y, std::string text, int width, int height) {
     std::vector<std::vector<std::vector<bool> > > charMap = {
         {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // 0
@@ -181,7 +181,7 @@ void drawText(std::vector<uint8_t>& pixels, int x, int y, std::string text, int 
 
     };
 
-    for (int i = 0; i < text.length(); ++i){
+    for (int i = 0; i < text.length(); ++i) {
         char c = text[i];
         if (c >= '0' && c <= '9') {
             int charIndex = c - '0';
