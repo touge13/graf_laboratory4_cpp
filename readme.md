@@ -1,4 +1,4 @@
-*в общем до разбиения на хэдеры и адаптацию проекта под cmake все запускалось с командой*
+*до разбиения на хедеры и адаптацию проекта под cmake все запускалось с командой*
 
 cd "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/" && g++ -std=c++11 main.cpp -o main && "/Users/admin/Desktop/work/С++/graf_laboratory4_cpp/src/"main
 
@@ -20,4 +20,8 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 во входных данных, где лежит ребро между первой и второй вершиной:
 /количество вершин\ /количество ребер\
 /номер первой вершины\ /номер второй вершины\
+
+пример input файла можно посмотреть перейдя по следующему пути:
+../conversion/input.txt
+
  
