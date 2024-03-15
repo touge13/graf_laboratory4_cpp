@@ -14,8 +14,6 @@ ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 *но зато проект запускается при помощи cmake. шило на мыло. видимо вся беда в операционке/ide/стандарте языка/прочих тонкостях железа*
-пример input файла:
-../conversion/input.txt
 
 при запуске надо указать путь на файл с входными данными ../conversion/input.txt
 
